@@ -8,11 +8,17 @@ The To-Do App is a terminal-based task manager that allows you to add, list, mar
 
 ## Features
 
-- Add new tasks
+- Add new tasks with priority levels (`low`, `medium`, `high`) default is medium
 - List all tasks with index numbers
 - Mark a task as done
 - Delete a task
 - Persistent storage in JSON format (`tasks.json`)
+- Tasks are **automatically sorted by priority** on save
+
+## Bonus Features
+
+- **Creation timestamps** for each task (day, month, time)
+- **Priority levels** affect both display and storage order
 
 ---
 
@@ -39,25 +45,31 @@ The To-Do App is a terminal-based task manager that allows you to add, list, mar
    python todo.py add "Buy milk"
    ```
 
-3. **List all tasks:**
+3. **Add a task with priority:**
+
+   ```bash
+   python todo.py add "Buy milk" --priority high
+   ```
+
+4. **List all tasks:**
 
    ```bash
    python todo.py list
    ```
 
-4. **Mark a task as done:**
+5. **Mark a task as done:**
 
    ```bash
    python todo.py done 1
    ```
 
-5. **Delete a task:**
+6. **Delete a task:**
 
    ```bash
    python todo.py delete 1
    ```
 
-6. **View help menu:**
+7. **View help menu:**
    ```bash
    python todo.py -h
    ```
@@ -73,18 +85,6 @@ The To-Do App is a terminal-based task manager that allows you to add, list, mar
 | `python todo.py done N`     | Mark task number N as done |
 | `python todo.py delete N`   | Delete task number N       |
 | `python todo.py -h`         | Show help menu             |
-
----
-
-## File Structure
-
-```
-internship-challenge/
-├── todo_app/
-│   └── todo.py
-├── README.md
-└── .gitignore
-```
 
 ---
 

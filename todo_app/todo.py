@@ -14,29 +14,35 @@ def load_tasks():
 
 # Save Task To Json File
 def save_tasks(tasks):
+    # Sorting by priority when adding new tasks or deleting previous ones
+    priority_order = {"high": 1, "medium": 2, "low": 3}
+    tasks.sort(key=lambda x: priority_order.get(x["priority"], 4))
     with open(TASK_FILE,'w') as f:
         json.dump(tasks,f,indent = 4)
 
 # Adding A New Task
-def add_task(title):
+def add_task(title,priority = "medium"):
     tasks = load_tasks()
     new_task = {
         "title":title,
-        "done": False
+        "done": False,
+        "created_at":datetime.now().strftime("%d-%m %H:%M"),
+        "priority": priority
     }
     tasks.append(new_task)
     save_tasks(tasks)
-    print(f"Task added:{title}")
+    print(f"Task added:{title} with {priority} priority")
 
 # List All Tasks 
 def list_tasks():
     tasks = load_tasks()
+    
     if not tasks: 
         print("No Tasks Found")
         return
     for i, task in enumerate(tasks):
         status = "[X]" if task["done"] else "[ ]"
-        print(f"{i+1}. {task["title"]} {status}")
+        print(f"{i+1}. {task["title"]} {status} (priority: {task["priority"]})")
 
 # Mark Task as done
 
@@ -72,6 +78,7 @@ def main():
     #Add Task Command
     add_parser = subparsers.add_parser("add", help = "Add a new task")
     add_parser.add_argument("title", type=str, help = "Task title")
+    add_parser.add_argument("--priority", choices = ["low","medium","high"],default = "medium",help = "Set task priority") 
 
     # List Command
     subparsers.add_parser("list", help = "List all tasks")
@@ -88,7 +95,7 @@ def main():
 
     match(args.command):
         case "add":
-            add_task(args.title)
+            add_task(args.title, args.priority)
         case "list":
             list_tasks()
         case "done":
